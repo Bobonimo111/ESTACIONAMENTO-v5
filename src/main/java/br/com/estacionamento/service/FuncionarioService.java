@@ -1,7 +1,6 @@
 package br.com.estacionamento.service;
 
 import br.com.estacionamento.model.Funcionario;
-import org.springframework.stereotype.Repository;
 
 public interface FuncionarioService {
     void cadastrarFuncionario(Funcionario funcionario);

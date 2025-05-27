@@ -1,6 +1,5 @@
 package br.com.estacionamento.service.impl;
 
-import br.com.estacionamento.model.Cliente;
 import br.com.estacionamento.model.Ticket;
 import br.com.estacionamento.repositories.TicketRepository;
 import br.com.estacionamento.service.ClienteService;

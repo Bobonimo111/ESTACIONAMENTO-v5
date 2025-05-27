@@ -5,6 +5,9 @@ import br.com.estacionamento.repositories.ClienteRepository;
 import br.com.estacionamento.service.ClienteService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -46,7 +49,20 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
+    @Transactional
     public void excluirCliente(String cpf) {
-        this.clienteRepository.deleteByCpf(cpf);
+        Cliente cliente = this.clienteRepository.findByCpf(cpf);
+        if (cliente != null) {
+            this.clienteRepository.delete(cliente);
+            // return true;
+        }
+        // return false;
     }
+
+    @Override
+    public List<Cliente> buscarTodosClientes() {
+          return this.clienteRepository.findAll();
+    }
+
+    
 }

@@ -22,19 +22,15 @@ public class Cliente extends Pessoa {
     @Column(name = "nome", length = 100, nullable = false)
     private String nome;
 
-    @Column(name = "placa", length = 7, nullable = false, unique = true)
-    private String placa;
-
-    @ManyToOne
-    @JoinColumn(name = "estacionamento_id")
-    private Estacionamento estacionamento;
-
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Builder.Default
     private List<Veiculo> veiculos = new java.util.ArrayList<>();
 
     @OneToMany(mappedBy = "cliente")
     private List<Ticket> tickets;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ClienteTelefone> telefones;
 
     @Embedded
     private Endereco endereco;
@@ -43,13 +39,15 @@ public class Cliente extends Pessoa {
 
     private LocalDate data_cadastro;
 
-    @ManyToOne
-    @JoinColumn(name = "convenio_id")
-    private Convenio convenio;
 
     public void adicionarVeiculo(Veiculo veiculo) {
         veiculos.add(veiculo);
         veiculo.setCliente(this);
+    }
+
+    public void adicionarTelefone(ClienteTelefone telefone) {
+        this.telefones.add(telefone);
+        telefone.setCliente(this);
     }
 
     @Override
@@ -60,6 +58,6 @@ public class Cliente extends Pessoa {
     @Override
     public String toString() {
         return "Cliente [endereco=" + endereco + ", ativo=" + ativo + ", data_cadastro=" + data_cadastro
-                + ", convenio=" + convenio + "]";
+                + "]";
     }
 }

@@ -26,10 +26,6 @@ public class Funcionario extends Pessoa {
     @Column(name = "data_admissao", nullable = false)
     private LocalDate dataAdmissao;
 
-    @ManyToOne
-    @JoinColumn(name = "estacionamento_id")
-    private Estacionamento estacionamento;
-
     @Embedded
     private Endereco endereco;
 

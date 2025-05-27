@@ -31,14 +31,6 @@ public class Vaga {
     @Builder.Default
     private Boolean disponivel = true;
 
-    @ManyToOne
-    @JoinColumn(name = "estacionamento_id", nullable = false)
-    private Estacionamento estacionamento;
-
-    @OneToMany(mappedBy = "vaga", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<Reserva> reservas = new ArrayList<>();
-
     public boolean reservar() {
         if (this.disponivel) {
             this.disponivel = false;
