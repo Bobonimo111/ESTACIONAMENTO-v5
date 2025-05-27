@@ -2,14 +2,11 @@ package br.com.estacionamento.views;
 
 import br.com.estacionamento.model.Cliente;
 import br.com.estacionamento.model.Endereco;
-import br.com.estacionamento.model.Ticket;
 import br.com.estacionamento.service.ClienteService;
-
 import java.util.List;
 import java.util.Scanner;
 
-import org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties.Web.Client;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties.ClientType;
+
 
 public class ClienteView {
 
@@ -23,7 +20,7 @@ public class ClienteView {
             System.out.println("2 - Atualizar");
             System.out.println("3 - Listar");
             System.out.println("4 - Remover");
-            ;
+            
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
 
@@ -91,7 +88,43 @@ public class ClienteView {
     }
 
     private static void atualizarCliente(Scanner scanner, ClienteService clienteService) {
+        System.out.println("Digite o cpf de quem deseja editar");
+        String cpf = scanner.nextLine();
 
+        Cliente cliente = clienteService.buscarClientePorCpf(cpf);
+
+        System.out.println("Nome atual " + cliente.getNome());
+        
+        System.out.print("Nome: ");
+        cliente.setNome(scanner.nextLine());
+        
+        // cliente.getTelefones().forEach(System.out::println);
+       
+        System.out.println("endereço atual" + cliente.getEndereco());
+
+        Endereco endereco = new Endereco();
+
+        System.out.print("Rua: ");
+        endereco.setRua(scanner.nextLine());
+
+        System.out.print("Bairro: ");
+        endereco.setBairro(scanner.nextLine());
+
+        System.out.print("Complemento: ");
+        endereco.setComplemento(scanner.nextLine());
+
+        System.out.print("Cidade: ");
+        endereco.setCidade(scanner.nextLine());
+
+        System.out.print("CEP: ");
+        endereco.setCep(scanner.nextLine());
+
+        System.out.print("UF: ");
+        endereco.setUf(scanner.nextLine());
+
+        cliente.setEndereco(endereco);
+
+        clienteService.atualizarCliente(cliente);
     }
 
     private static void listarClientes(Scanner scanner, ClienteService clienteService) {

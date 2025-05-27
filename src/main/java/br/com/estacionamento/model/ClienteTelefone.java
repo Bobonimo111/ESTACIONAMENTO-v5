@@ -20,4 +20,11 @@ public class ClienteTelefone {
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
+
+    @Override
+    public String toString() {
+        return "ClienteTelefone [numero=" + numero + "]";
+    }
+
+    
 }
