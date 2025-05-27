@@ -1,6 +1,8 @@
 package br.com.estacionamento.service.impl;
 
+import br.com.estacionamento.model.Pagamento;
 import br.com.estacionamento.model.Ticket;
+import br.com.estacionamento.repositories.PagamentoRepository;
 import br.com.estacionamento.repositories.TicketRepository;
 import br.com.estacionamento.service.ClienteService;
 import br.com.estacionamento.service.TicketService;
@@ -17,6 +19,7 @@ import java.util.List;
 public class TicketServiceImpl implements TicketService {
 
     private final TicketRepository ticketRepository;
+    private final PagamentoRepository pagamentoRepository;
     private final VeiculoService veiculoService;
     private final ClienteService clienteService;
 
@@ -32,7 +35,7 @@ public class TicketServiceImpl implements TicketService {
         if (ticket.isPresent()) {
             return ticket.get();
         } else {
-            throw new RuntimeException("Ticket não encontrado com o ID: " + id);
+            return null;
         }
     }
 
@@ -59,7 +62,7 @@ public class TicketServiceImpl implements TicketService {
         var ticket = this.ticketRepository.findByVeiculo(veiculo);
 
         if (ticket == null) {
-            throw new RuntimeException("Ticket não encontrado para o veículo com a placa: " + placa);
+            System.out.println("Ticket não encontrado para o veículo com a placa: " + placa);
         }
 
         return ticket;
@@ -67,6 +70,19 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public void fecharTicket(Long id) {
+        this.pagamentoRepository.deleteById(id);;
         this.ticketRepository.deleteById(id);
     }
+
+    @Override
+    public void gerarPagamento(Pagamento pagamento) {
+        this.pagamentoRepository.save(pagamento);
+    }
+
+    @Override
+    public void atualizarTicket(Ticket ticket) {
+        this.ticketRepository.save(ticket);
+    }
+
+    
 }

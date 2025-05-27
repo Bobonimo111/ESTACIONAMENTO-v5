@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class Pagamento {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,4 +27,15 @@ public class Pagamento {
     @OneToOne
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
+
+    @Override
+    public String toString() {
+        return "Pagamento {" +
+                "\n  id=" + id +
+                ",\n  dataPagamento=" + dataPagamento +
+                ",\n  valor=" + valor +
+                ",\n  ticket=" + ticket +
+                "\n}";
+    }
+
 }

@@ -44,7 +44,6 @@ public class ClienteServiceImpl implements ClienteService {
         if (cliente.getTelefone() != null && !cliente.getTelefone().isEmpty()) {
             clienteExistente.setTelefone(cliente.getTelefone());
         }
-
         this.clienteRepository.save(clienteExistente);
     }
 

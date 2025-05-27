@@ -24,7 +24,7 @@ public class VeiculoServiceImpl implements VeiculoService {
         var veiculo = this.veiculoRepository.findByPlaca((placa));
 
         if (veiculo == null) {
-            throw new RuntimeException("Veículo não encontrado com a placa: " + placa);
+            return null;
         }
 
         return veiculo;

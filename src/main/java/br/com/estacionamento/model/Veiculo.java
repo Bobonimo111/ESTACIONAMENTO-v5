@@ -39,6 +39,9 @@ public class Veiculo {
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
+    @OneToOne()
+    @JoinColumn(name = "vaga_id")
+    private Vaga vaga;
 
     @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL)
     @Builder.Default

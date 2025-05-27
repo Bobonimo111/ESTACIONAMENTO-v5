@@ -1,5 +1,6 @@
 package br.com.estacionamento.service;
 
+import br.com.estacionamento.model.Pagamento;
 import br.com.estacionamento.model.Ticket;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface TicketService {
     List<Ticket> buscarTodosTickets();
     Ticket buscarTicketPorVeiculo(String placa);
     void fecharTicket(Long id);
+    void gerarPagamento(Pagamento pagamento);
+    void atualizarTicket(Ticket ticket);
 }

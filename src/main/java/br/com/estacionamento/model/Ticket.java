@@ -3,7 +3,6 @@ package br.com.estacionamento.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "tickets")
@@ -18,8 +17,8 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "valor", nullable = false, precision = 10, scale = 2)
-    private BigDecimal valor;
+    // @Column(name = "valor", nullable = false, precision = 10, scale = 2)
+    // private BigDecimal valor;
 
     @Column(name = "tempo_permanencia", nullable = false)
     private Integer tempoPermanencia;
@@ -35,10 +34,25 @@ public class Ticket {
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "veiculo_id", nullable = false)
+    @JoinColumn(name = "veiculo_id", nullable = true)
     private Veiculo veiculo;
 
     @ManyToOne
     @JoinColumn(name = "funcionario_id")
     private Funcionario funcionario;
+
+    @Override
+    public String toString() {
+    return "ClasseNome {" +
+           "\n  id=" + id +
+           ",\n  tempoPermanencia=" + tempoPermanencia +
+           ",\n  horaSaida=" + horaSaida +
+           ",\n  pagamento=" + pagamento +
+           ",\n  cliente=" + cliente +
+           ",\n  veiculo=" + veiculo +
+           ",\n  funcionario=" + funcionario +
+           "\n}";
+}
+
+    
 }
