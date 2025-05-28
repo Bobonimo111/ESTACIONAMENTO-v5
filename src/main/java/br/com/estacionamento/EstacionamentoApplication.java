@@ -63,13 +63,13 @@ public class EstacionamentoApplication {
                         }
                         break;
                     case 3:
-                        VagaView.vagaView();
+                        VagaView.vagaView(scanner,veiculoService);
                         break;
                     case 4:
                         RelatorioView.relatorioView();
                         break;
                     case 5:
-                        VeiculoView.veiculoView();
+                        VeiculoView.veiculoView(scanner,veiculoService,clienteService);
                         break;
                     case 0:
                         running = false;

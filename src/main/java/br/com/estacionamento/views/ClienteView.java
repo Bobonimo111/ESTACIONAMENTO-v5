@@ -58,7 +58,7 @@ public class ClienteView {
         cliente.setCpf(scanner.nextLine());
 
         System.out.print("Nome: ");
-        cliente.setNome(scanner.nextLine());
+        cliente.setName(scanner.nextLine());
 
         System.out.print("Telefone: ");
         cliente.setTelefone(scanner.nextLine());
@@ -93,10 +93,10 @@ public class ClienteView {
 
         Cliente cliente = clienteService.buscarClientePorCpf(cpf);
 
-        System.out.println("Nome atual " + cliente.getNome());
+        System.out.println("Nome atual " + cliente.getName());
         
         System.out.print("Nome: ");
-        cliente.setNome(scanner.nextLine());
+        cliente.setName(scanner.nextLine());
         
         // cliente.getTelefones().forEach(System.out::println);
        
@@ -134,7 +134,7 @@ public class ClienteView {
                 System.out.println("Nenhum ticket encontrado.");
             } else {
                 clientes.forEach(cliente -> System.out.println(
-                        "CLENTE " + cliente.getId() + " Nome:  " + cliente.getNome() + ", CPF : " + cliente.getCpf()));
+                        "CLENTE " + cliente.getId() + " Nome:  " + cliente.getName() + ", CPF : " + cliente.getCpf()));
             }
         } catch (RuntimeException e) {
             System.out.println("Erro: " + e.getMessage());

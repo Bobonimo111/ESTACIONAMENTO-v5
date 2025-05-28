@@ -16,7 +16,7 @@ public class Vaga {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "numero", unique = true, nullable = false)
+    @Column(name = "numero", unique = true, nullable = true)
     private Integer numero;
 
     @Column(name = "setor", length = 50, nullable = false)
@@ -39,5 +39,16 @@ public class Vaga {
 
     public void liberar() {
         this.disponivel = true;
+    }
+
+    @Override
+    public String toString() {
+        return "Vaga {" +
+                "\n  id=" + id +
+                ",\n  numero=" + numero +
+                ",\n  setor=" + setor +
+                ",\n  andar=" + andar +
+                ",\n  disponivel=" + disponivel +
+                "\n}";
     }
 }

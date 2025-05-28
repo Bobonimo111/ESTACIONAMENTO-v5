@@ -2,10 +2,11 @@ package br.com.estacionamento.views;
 
 import java.util.Scanner;
 
+import br.com.estacionamento.model.Vaga;
 import br.com.estacionamento.service.VeiculoService;
 
 public class VagaView {
-    public static void vagaView(Scanner scanner,VeiculoService veiculoService){
+    public static void vagaView(Scanner scanner, VeiculoService veiculoService) {
         boolean running = true;
         while (running) {
             System.out.println("\n=== SISTEMA DE Vagas ===");
@@ -23,16 +24,16 @@ public class VagaView {
 
             switch (opcao) {
                 case 1:
-                    cadastrarTicket(scanner, veiculoService);
+                    cadastrarVaga(scanner, veiculoService);
                     break;
                 case 2:
-                    atualizarTicket(scanner, veiculoService);
+                    atualizarVaga(scanner, veiculoService);
                     break;
                 case 3:
-                    listarTickets(scanner, veiculoService);
+                    listarVagas(scanner, veiculoService);
                     break;
                 case 4:
-                    removerTicket(scanner, veiculoService);
+                    removerVaga(scanner, veiculoService);
                     break;
                 case 0:
                     running = false;
@@ -44,16 +45,71 @@ public class VagaView {
         }
     }
 
-    public static void cadastrar(){
+    public static void cadastrarVaga(Scanner scanner, VeiculoService veiculoServico) {
+        Vaga vaga = new Vaga();
+        System.out.print("Andar da vaga [ex: 1]");
+        vaga.setAndar(scanner.nextLine());
+        System.out.print("Setor [ex: b]");
+        vaga.setSetor(scanner.nextLine());
+        System.out.print("Numero da vaga [15](Opcional):");
+        Integer num = null;
+        try {
+            num = Integer.parseInt(scanner.nextLine());
+        } catch (Exception e) {
+            // System.out.println("Valor invalido");
+        }
+
+        if (num != null) {
+            vaga.setNumero(num);
+        } else {
+            System.out.println("Numero não atribuido");
+        }
+
+        veiculoServico.adiconarVaga(vaga);
+        System.out.println("Vaga adicionada ao sistema !");
+    }
+
+    public static void atualizarVaga(Scanner scanner, VeiculoService veiculoServico) {
+        System.out.println("Id vaga :");
+        Vaga vaga = veiculoServico.buscarVagaPorId((long) scanner.nextInt());
+        scanner.nextLine();
+        if (vaga == null) {
+            System.out.println("Vaga não encontrada");
+        } else {
+            System.out.println("Andar da vaga: ");
+            System.out.println("Andar = " + vaga.getAndar());
+            vaga.setAndar(scanner.nextLine());
+
+            System.out.println("Setor [ex: b]");
+            System.out.println("Setor = " + vaga.getSetor());
+            vaga.setSetor(scanner.nextLine());
+
+            System.out.println("Numero da vaga [15](Opcional):");
+            System.out.println("Num vaga = " + vaga.getNumero());
+            Integer num = null;
+            try {
+                num = Integer.parseInt(scanner.nextLine());
+                vaga.setNumero(num);
+            } catch (Exception e) {
+                // System.out.println("Valor invalido");
+            }
+
+            veiculoServico.editarVaga(vaga);
+        }
 
     }
-    public static void atualizar(){
-        
+
+    public static void listarVagas(Scanner scanner, VeiculoService veiculoServico) {
+        veiculoServico.listarVagas().forEach(vaga -> System.err.println(vaga));
     }
-    public static void lista(){
-        
-    }
-    public static void remover(){
-        
+
+    public static void removerVaga(Scanner scanner, VeiculoService veiculoServico) {
+        System.out.println("Id vaga :");
+        Vaga vaga = veiculoServico.buscarVagaPorId((long) scanner.nextInt());
+        if (vaga == null) {
+            System.out.println("Vaga não encontrada");
+        } else {
+            veiculoServico.removerVaga(vaga);
+        }
     }
 }

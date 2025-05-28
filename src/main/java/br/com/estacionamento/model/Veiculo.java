@@ -47,6 +47,17 @@ public class Veiculo {
     @Builder.Default
     private List<Ticket> tickets = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "Veiculo {\n" +
+                "  Placa: " + placa + "\n" +
+                "  Modelo: " + modelo + "\n" +
+                "  Cor: " + cor + "\n" +
+                "  Marca: " + marca + "\n" +
+                "  Ano: " + ano + "\n" +
+                "}";
+    }
+
     public void adicionarTicket(Ticket ticket) {
         tickets.add(ticket);
         ticket.setVeiculo(this);

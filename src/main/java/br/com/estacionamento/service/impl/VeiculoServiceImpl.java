@@ -3,6 +3,7 @@ package br.com.estacionamento.service.impl;
 import br.com.estacionamento.model.Vaga;
 import br.com.estacionamento.model.Veiculo;
 import br.com.estacionamento.repositories.VeiculoRepository;
+import br.com.estacionamento.repositories.ClienteRepository;
 import br.com.estacionamento.repositories.VagaRepository;
 import br.com.estacionamento.service.VeiculoService;
 import jakarta.transaction.Transactional;
@@ -16,8 +17,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class VeiculoServiceImpl implements VeiculoService {
 
+    private final ClienteRepository clienteRepository;
+
     private final VeiculoRepository veiculoRepository;
     private final VagaRepository vagaRepository;
+    
+    
 
     @Override
     @Transactional
@@ -84,5 +89,21 @@ public class VeiculoServiceImpl implements VeiculoService {
         vagaRepository.delete(vaga);   
     }
 
+    
+    @Override
+    @Transactional
+    public Vaga buscarVagaPorId(Long id) {
+        return vagaRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Veiculo> listarVeiculo() {
+        return veiculoRepository.findAll();
+    }
+
+    @Override
+    public List<Veiculo> buscarVeiculoPorCpf(String cpf) {
+       return clienteRepository.findVeiculos(cpf);
+    }    
     
 }

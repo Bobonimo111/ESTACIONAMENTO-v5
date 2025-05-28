@@ -20,7 +20,7 @@ public class Cliente extends Pessoa {
     private Long id;
 
     @Column(name = "nome", length = 100, nullable = false)
-    private String nome;
+    private String name;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Builder.Default
