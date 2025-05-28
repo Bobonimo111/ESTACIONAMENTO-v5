@@ -30,4 +30,16 @@ public abstract class Pessoa {
     private LocalDate dataNasc;
 
     public abstract String getTipo();
+
+    @Override
+    public String toString() {
+        return getTipo() + " {\n" +
+                "  ID: " + id + "\n" +
+                "  Nome: " + name + "\n" +
+                "  CPF: " + cpf + "\n" +
+                "  Telefone: " + telefone + "\n" +
+                "  Data de Nascimento: " + dataNasc + "\n" +
+                "}";
+    }
+
 }

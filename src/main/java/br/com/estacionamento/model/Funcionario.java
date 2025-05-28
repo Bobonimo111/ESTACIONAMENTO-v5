@@ -33,4 +33,16 @@ public class Funcionario extends Pessoa {
     public String getTipo() {
         return "FUNCIONARIO";
     }
+
+    @Override
+    public String toString() {
+        return "Funcionario {\n" +
+                "  PIS: " + pis + "\n" +
+                "  Cargo: " + cargo + "\n" +
+                "  Salário: R$ " + salario + "\n" +
+                "  Data de Admissão: " + dataAdmissao + "\n" +
+                "  Endereço: " + endereco + "\n" +
+                "}";
+    }
+
 }

@@ -14,4 +14,6 @@ public interface TicketService {
     void fecharTicket(Long id);
     void gerarPagamento(Pagamento pagamento);
     void atualizarTicket(Ticket ticket);
+    
+    Pagamento buscarPagmentoPorTicketId(Long id); 
 }

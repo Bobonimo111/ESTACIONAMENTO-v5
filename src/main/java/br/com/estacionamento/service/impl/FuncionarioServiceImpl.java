@@ -5,6 +5,9 @@ import br.com.estacionamento.repositories.FuncionarioRepository;
 import br.com.estacionamento.service.FuncionarioService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +21,15 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     public void cadastrarFuncionario(Funcionario funcionario) {
         this.funcionarioRepository.save(funcionario);
     }
+
+    
+
+    @Override
+    public List<Funcionario> listAll() {
+        return funcionarioRepository.findAll();
+    }
+
+
 
     @Override
     public Funcionario buscarFuncionarioPorCpf(String cpf) {

@@ -44,21 +44,7 @@ public class VeiculoServiceImpl implements VeiculoService {
     @Override
     @Transactional
     public void atualizarVeiculo(Veiculo veiculo) {
-        var veiculoExistente = buscarVeiculoPorPlaca(veiculo.getPlaca());
-
-        if (veiculo.getMarca() != null) {
-            veiculoExistente.setMarca(veiculo.getMarca());
-        }
-
-        if (veiculo.getModelo() != null) {
-            veiculoExistente.setModelo(veiculo.getModelo());
-        }
-
-        if (veiculo.getCor() != null) {
-            veiculoExistente.setCor(veiculo.getCor());
-        }
-
-        this.veiculoRepository.save(veiculoExistente);
+        this.veiculoRepository.save(veiculo);
     }
 
     @Override
@@ -103,7 +89,7 @@ public class VeiculoServiceImpl implements VeiculoService {
 
     @Override
     public List<Veiculo> buscarVeiculoPorCpf(String cpf) {
-       return clienteRepository.findVeiculos(cpf);
+       return veiculoRepository.findVeiculos(cpf);
     }    
     
 }

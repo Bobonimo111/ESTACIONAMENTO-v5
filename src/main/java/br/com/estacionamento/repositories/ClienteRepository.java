@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 public interface ClienteRepository extends JpaRepository<Cliente,Long> {
     Cliente findByCpf(String cpf);
     boolean deleteByCpf(String cpf);
-    
-    @Query("SELECT vei FROM Veiculo vei WHERE vei.cliente.cpf = :cpf")
-    List<Veiculo> findVeiculos(@Param("cpf") String cpf) ;
+
+   
 }

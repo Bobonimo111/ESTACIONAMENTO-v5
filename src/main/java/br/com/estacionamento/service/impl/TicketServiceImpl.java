@@ -79,10 +79,18 @@ public class TicketServiceImpl implements TicketService {
         this.pagamentoRepository.save(pagamento);
     }
 
+
+
     @Override
     public void atualizarTicket(Ticket ticket) {
         this.ticketRepository.save(ticket);
     }
 
+    @Override
+    public Pagamento buscarPagmentoPorTicketId(Long id) {
+        return pagamentoRepository.buscarPagamentos(id);
+    }
+     
+    
     
 }

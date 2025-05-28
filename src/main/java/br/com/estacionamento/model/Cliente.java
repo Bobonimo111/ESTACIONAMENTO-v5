@@ -57,7 +57,9 @@ public class Cliente extends Pessoa {
 
     @Override
     public String toString() {
-        return "Cliente [endereco=" + endereco + ", ativo=" + ativo + ", data_cadastro=" + data_cadastro
-                + "]";
+        return "Cliente [id=" + id + ", name=" + name + ", endereco=" + endereco + ", ativo=" + ativo + ", data_cadastro="
+                + data_cadastro + "]";
     }
+
+    
 }

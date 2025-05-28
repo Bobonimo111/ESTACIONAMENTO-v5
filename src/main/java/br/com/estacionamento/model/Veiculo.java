@@ -12,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
 @EqualsAndHashCode(of = "placa")
 public class Veiculo {
 

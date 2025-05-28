@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Embeddable
 @Getter
@@ -13,13 +14,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Endereco{
-    
+@ToString
+public class Endereco {
+
     private String rua;
     private String bairro;
     private String complemento;
     private String cidade;
     private String cep;
     private String uf;
-
 }
