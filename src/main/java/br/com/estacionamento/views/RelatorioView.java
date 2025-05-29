@@ -22,8 +22,7 @@ public class RelatorioView {
 
             System.out.println("1 - Clientes e veiculos");
             System.out.println("2 - Tickets e pagamentos");
-            System.out.println("3 - Funcionarios no sistemas");
-            System.out.println("4 - Vagas disponiveis");
+            System.out.println("3 - Vagas disponiveis");
 
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
@@ -39,14 +38,11 @@ public class RelatorioView {
                     ticketPagamentos(scanner, ticketService);
                     break;
                 case 3:
-                    funcionarios(scanner, funcionarioService);
-                    break;
-                case 4:
                     vagasDisponiveis(scanner, veiculoService);
                     break;
                 case 0:
                     running = false;
-                    System.out.println("Saindo do gerenciador de Tickets");
+                    System.out.println("Saindo do gerenciador de Relatorios...");
                     break;
                 default:
                     System.out.println("Opção inválida!");
