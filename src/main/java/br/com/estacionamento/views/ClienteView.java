@@ -114,7 +114,7 @@ public class ClienteView {
 
         System.out.println("endereço atual" + cliente.getEndereco());
 
-        Endereco endereco = new Endereco();
+        Endereco endereco = cliente.getEndereco();
 
         System.out.print("Rua: ");
         endereco.setRua(scanner.nextLine());
@@ -135,7 +135,6 @@ public class ClienteView {
         endereco.setUf(scanner.nextLine());
 
         cliente.setEndereco(endereco);
-
         clienteService.atualizarCliente(cliente);
     }
 

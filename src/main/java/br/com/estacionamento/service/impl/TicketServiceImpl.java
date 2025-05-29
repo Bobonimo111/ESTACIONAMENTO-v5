@@ -7,8 +7,11 @@ import br.com.estacionamento.repositories.TicketRepository;
 import br.com.estacionamento.service.ClienteService;
 import br.com.estacionamento.service.TicketService;
 import br.com.estacionamento.service.VeiculoService;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -22,14 +25,17 @@ public class TicketServiceImpl implements TicketService {
     private final PagamentoRepository pagamentoRepository;
     private final VeiculoService veiculoService;
     private final ClienteService clienteService;
+    @Autowired
+    private EntityManager manager;
 
     @Override
     @Transactional
-    public void abrirTicket(Ticket ticket) {
-        this.ticketRepository.save(ticket);
+    public Ticket abrirTicket(Ticket ticket) {
+        return this.ticketRepository.save(ticket);
     }
 
     @Override
+    @Transactional
     public Ticket buscarTicketPorId(Long id) {
         var ticket = this.ticketRepository.findById(id);
         if (ticket.isPresent()) {
@@ -70,18 +76,22 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public void fecharTicket(Long id) {
-        this.pagamentoRepository.deleteById(id);;
+        this.pagamentoRepository.deleteById(id);
+        ;
         this.ticketRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    public void gerarPagamento(Pagamento pagamento) {
+    public void gerarPagamento(Pagamento pagamento, Ticket ticket) {
+        manager.merge(ticket);  
+        if (manager.contains(ticket)) {
+            System.out.println("✅ Ticket está gerenciado (em contexto de persistência).");
+        } else {
+            System.out.println("❌ Ticket está detached (fora do contexto).");
+        }
         this.pagamentoRepository.save(pagamento);
     }
-
-
-
     @Override
     @Transactional
     public void atualizarTicket(Ticket ticket) {
@@ -92,7 +102,5 @@ public class TicketServiceImpl implements TicketService {
     public Pagamento buscarPagmentoPorTicketId(Long id) {
         return pagamentoRepository.buscarPagamentos(id);
     }
-     
-    
-    
+
 }

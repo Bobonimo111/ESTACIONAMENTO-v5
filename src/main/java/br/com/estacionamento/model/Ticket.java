@@ -26,7 +26,7 @@ public class Ticket {
     @Column(name = "hora_saida")
     private LocalDateTime horaSaida;
 
-    @OneToOne(mappedBy = "ticket")
+    @OneToOne(mappedBy = "ticket",cascade = CascadeType.PERSIST)
     private Pagamento pagamento;
     
     @ManyToOne

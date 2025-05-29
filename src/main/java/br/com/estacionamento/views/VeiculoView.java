@@ -45,7 +45,7 @@ public class VeiculoView {
                     break;
                 case 0:
                     running = false;
-                    System.out.println("Saindo do gerenciador de Tickets");
+                    System.out.println("Saindo do gerenciador de Veiculos");
                     break;
                 default:
                     System.out.println("Opção inválida!");
@@ -161,8 +161,8 @@ public class VeiculoView {
         if (veiculo == null) {
             System.out.println("veiculo não encontrado no sistema");
         } else {
-            veiculoService.removerVeiculo(veiculo.getPlaca());
-            System.out.println("Veiculo removido do sistema");
+            System.out.println("Veiculo removido do sistema "+ veiculo.getPlaca());
+            veiculoService.removerVeiculo(veiculo);
         }
 
     }

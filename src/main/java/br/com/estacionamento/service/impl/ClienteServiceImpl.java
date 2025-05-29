@@ -26,7 +26,7 @@ public class ClienteServiceImpl implements ClienteService {
     public Cliente buscarClientePorCpf(String cpf) {
         var cliente = this.clienteRepository.findByCpf(cpf);
         if (cliente == null) {
-            throw new RuntimeException("Cliente não encontrado com o CPF: " + cpf);
+            return null;
         }
 
         return cliente;
@@ -35,16 +35,7 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     @Transactional
     public void atualizarCliente(Cliente cliente) {
-        var clienteExistente = buscarClientePorCpf(cliente.getCpf());
-
-        if (cliente.getName() != null && !cliente.getName().isEmpty()) {
-            clienteExistente.setName(cliente.getName());
-        }
-
-        if (cliente.getTelefone() != null && !cliente.getTelefone().isEmpty()) {
-            clienteExistente.setTelefone(cliente.getTelefone());
-        }
-        this.clienteRepository.save(clienteExistente);
+        this.clienteRepository.save(cliente);
     }
 
     @Override

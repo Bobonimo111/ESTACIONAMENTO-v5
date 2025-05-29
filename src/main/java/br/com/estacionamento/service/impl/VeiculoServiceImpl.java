@@ -4,6 +4,7 @@ import br.com.estacionamento.model.Vaga;
 import br.com.estacionamento.model.Veiculo;
 import br.com.estacionamento.repositories.VeiculoRepository;
 import br.com.estacionamento.repositories.ClienteRepository;
+import br.com.estacionamento.repositories.TicketRepository;
 import br.com.estacionamento.repositories.VagaRepository;
 import br.com.estacionamento.service.VeiculoService;
 import jakarta.transaction.Transactional;
@@ -17,12 +18,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class VeiculoServiceImpl implements VeiculoService {
 
+    private final TicketRepository ticketRepository;
+
     private final ClienteRepository clienteRepository;
 
     private final VeiculoRepository veiculoRepository;
     private final VagaRepository vagaRepository;
-    
-    
 
     @Override
     @Transactional
@@ -49,8 +50,13 @@ public class VeiculoServiceImpl implements VeiculoService {
 
     @Override
     @Transactional
-    public void removerVeiculo(String placa) {
-        this.veiculoRepository.deleteByPlaca(placa);
+    public void removerVeiculo(Veiculo veiculo) {
+        ticketRepository.deleteAll(veiculo.getTickets());
+        veiculo.getTickets().clear();
+        if (veiculo.getVaga() != null) {
+            veiculo.setVaga(null);
+        }
+        this.veiculoRepository.delete(veiculo);
     }
 
     @Override
@@ -73,10 +79,9 @@ public class VeiculoServiceImpl implements VeiculoService {
     @Override
     @Transactional
     public void removerVaga(Vaga vaga) {
-        vagaRepository.delete(vaga);   
+        vagaRepository.delete(vaga);
     }
 
-    
     @Override
     @Transactional
     public Vaga buscarVagaPorId(Long id) {
@@ -90,7 +95,12 @@ public class VeiculoServiceImpl implements VeiculoService {
 
     @Override
     public List<Veiculo> buscarVeiculoPorCpf(String cpf) {
-       return veiculoRepository.findVeiculos(cpf);
-    }    
-    
+        return veiculoRepository.findVeiculos(cpf);
+    }
+
+    @Override
+    public List<Vaga> buscarVagasPorSetorAndar(String andar, String setor) {
+        return vagaRepository.buscarPorAndarSetor(andar, setor);    
+    }
+
 }

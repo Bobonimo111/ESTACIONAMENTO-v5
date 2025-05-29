@@ -31,7 +31,6 @@ public class Cliente extends Pessoa {
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ClienteTelefone> telefones;
-
     
     private boolean ativo;
 

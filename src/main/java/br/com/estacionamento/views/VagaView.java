@@ -1,5 +1,6 @@
 package br.com.estacionamento.views;
 
+import java.util.List;
 import java.util.Scanner;
 
 import br.com.estacionamento.model.Vaga;
@@ -37,7 +38,7 @@ public class VagaView {
                     break;
                 case 0:
                     running = false;
-                    System.out.println("Saindo do gerenciador de Tickets");
+                    System.out.println("Saindo do gerenciador de Vagas");
                     break;
                 default:
                     System.out.println("Opção inválida!");
@@ -100,7 +101,16 @@ public class VagaView {
     }
 
     public static void listarVagas(Scanner scanner, VeiculoService veiculoServico) {
-        veiculoServico.listarVagas().forEach(vaga -> System.err.println(vaga));
+        List<Vaga> vagas = veiculoServico.listarVagas();
+        for(Vaga v : vagas){
+            if(v.getDisponivel()){
+                System.out.println("==================");
+                System.out.println("Andar : "+v.getAndar());
+                System.out.println("Setor : "+v.getSetor());
+                System.out.println("Numero : "+v.getNumero());
+                System.out.println("Disponivel : "+ (v.getDisponivel() ? "Sim" : "Não") );
+            }
+        }
     }
 
     public static void removerVaga(Scanner scanner, VeiculoService veiculoServico) {

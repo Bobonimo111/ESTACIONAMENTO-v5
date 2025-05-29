@@ -10,7 +10,7 @@ public interface VeiculoService {
     List<Veiculo> buscarVeiculoPorCpf(String cpf);
     Veiculo buscarVeiculoPorPlaca(String placa);
     void atualizarVeiculo(Veiculo veiculo);
-    void removerVeiculo(String placa);
+    void removerVeiculo(Veiculo veiculo);
     List<Veiculo> listarVeiculo();
 
     void adiconarVaga(Vaga vaga);
@@ -18,4 +18,5 @@ public interface VeiculoService {
     List<Vaga> listarVagas();
     void removerVaga(Vaga vaga);
     Vaga buscarVagaPorId(Long id);
+    List<Vaga> buscarVagasPorSetorAndar(String andar,String setor);
 }

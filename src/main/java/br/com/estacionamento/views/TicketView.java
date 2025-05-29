@@ -6,12 +6,13 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Scanner;
 
 import br.com.estacionamento.model.Cliente;
 import br.com.estacionamento.model.Funcionario;
-import br.com.estacionamento.model.Pagamento;
 import br.com.estacionamento.model.Ticket;
+import br.com.estacionamento.model.Vaga;
 import br.com.estacionamento.model.Veiculo;
 import br.com.estacionamento.service.ClienteService;
 import br.com.estacionamento.service.TicketService;
@@ -59,7 +60,7 @@ public class TicketView {
     }
 
     public static void cadastrarTicket(Scanner scanner, TicketService ticketService, VeiculoService veiculoService,
-            Funcionario funcionario, ClienteService clienteService) {
+        Funcionario funcionario, ClienteService clienteService) {
         System.out.println("\n--- GERAR NOVO TICKET ---");
         System.out.println("Informe o CPF do cliente:");
         String cpf = scanner.nextLine();
@@ -95,20 +96,28 @@ public class TicketView {
         ticket.setTempoPermanencia(horas);
         ticket.setHoraSaida(horaSaida);
 
-        BigDecimal valorHora = new BigDecimal("7.50");
-        BigDecimal valorTotal = valorHora.multiply(BigDecimal.valueOf(horas));
+        // BigDecimal valorHora = new BigDecimal("7.50");
+        // BigDecimal valorTotal = valorHora.multiply(BigDecimal.valueOf(horas));
+        Ticket ticketSaved = ticketService.abrirTicket(ticket);
+        veiculo.adicionarTicket(ticketSaved);
+        System.out.println(" ticket adicionado ao cliente "+ticketSaved.getCliente().getName());
+        // System.out.println("Vaga que vai estacionar");
 
-        Pagamento pagamento = new Pagamento();
-        pagamento.setValor(valorTotal);
-        ticketService.abrirTicket(ticket);
+        // System.out.println("Andar: ");
+        // String andar = scanner.nextLine();
 
-        System.out.println("Valor aplicado é : " + valorTotal);
-       
+        // System.out.println("Setor: ");
+        // String setor = scanner.nextLine();
 
-        pagamento.setTicket(ticketService.buscarTicketPorId(ticket.getId()));
-        ticketService.gerarPagamento(pagamento);
+        // List<Vaga> vaga = veiculoService.buscarVagasPorSetorAndar(andar, setor);
+        // veiculo.setVaga(vaga.get(0));
 
-        System.out.println("Pagamento gerado com sucesso");
+        // System.out.println("Valor aplicado é : " + valorTotal);
+
+        // Pagamento pagamento = new Pagamento();
+        // pagamento.setValor(valorTotal);
+        // ticketService.gerarPagamento(pagamento,ticketSaved);
+        // System.out.println("Pagamento gerado com sucesso");
     }
 
     public static void atualizarTicket(Scanner scanner, TicketService ticketService, VeiculoService veiculoService,
@@ -136,7 +145,13 @@ public class TicketView {
     }
 
     public static void listarTickets(Scanner scanner, TicketService ticketService) {
-        ticketService.buscarTodosTickets().forEach(ticket -> System.out.println(ticket));
+        ticketService.buscarTodosTickets().forEach(ticket -> {
+            System.out.println("=============================================");
+            System.out.println("Tempo de permanencia : "+ticket.getTempoPermanencia() + " horas");
+            System.out.println("Hora de saida : "+ticket.getHoraSaida());
+            System.out.println("Modelo do veiculo : " + ticket.getVeiculo().getModelo());
+            System.out.println("Dono : " + ticket.getCliente().getName());
+        });
     }
 
     public static void removerTicket(Scanner scanner, TicketService ticketService) {

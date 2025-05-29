@@ -38,11 +38,11 @@ public class Veiculo {
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
-    @OneToOne()
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "vaga_id")
     private Vaga vaga;
 
-    @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @Builder.Default
     private List<Ticket> tickets = new ArrayList<>();
 

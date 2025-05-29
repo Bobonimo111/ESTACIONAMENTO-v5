@@ -58,7 +58,11 @@ public class RelatorioView {
         List<Vaga> vagas = veiculoService.listarVagas();
         for(Vaga v : vagas){
             if(v.getDisponivel()){
-                System.out.println(v);
+                System.out.println("==================");
+                System.out.println("Andar : "+v.getAndar());
+                System.out.println("Setor : "+v.getSetor());
+                System.out.println("Numero : "+v.getNumero());
+                System.out.println("Disponivel : "+ (v.getDisponivel() ? "Sim" : "Não") );
             }
         }
     }
@@ -77,24 +81,30 @@ public class RelatorioView {
     private static void ticketPagamentos(Scanner scanner, TicketService ticketService) {
         List<Ticket> tickets = ticketService.buscarTodosTickets();
         for(Ticket t : tickets){
-            System.out.println(t);
-            System.out.println(ticketService.buscarPagmentoPorTicketId(t.getId()));
+            System.out.println("=============================");
+            System.out.println("Ticket numero : "+t.getId());
+            System.out.println("Permanencia horas : "+ t.getTempoPermanencia());
+            System.out.println("Saida : "+t.getHoraSaida());
+            System.out.println("Cliente : "+ t.getCliente().getName());
+            System.out.println("Valor : " + t.getTempoPermanencia() * 7.50);
         }
     }
 
     private static void clienteVeiculos(Scanner scanner, ClienteService clienteService, VeiculoService veiculoService) {
         for (Cliente cliente : clienteService.buscarTodosClientes()){
-            System.out.println(cliente.getName());
-            System.out.println("{");
+            System.out.println("================================");
+            System.out.println("Nome : "+ cliente.getName());
             List<Veiculo> veiculos = cliente.getVeiculos();
-            System.out.println(veiculos.size());
+            System.out.println("Numero de veiculos : "+veiculos.size());
+            System.out.println("==================");          
             for(Veiculo v : veiculos){
-                System.err.println(" Marca "+v.getMarca());
-                System.err.println(" Modelo "+v.getModelo());
-                System.err.println(" Placa  "+v.getPlaca());
-                System.err.println(" Ano "+v.getAno());
+                System.err.println(" Marca :"+v.getMarca());
+                System.err.println(" Modelo :"+v.getModelo());
+                System.err.println(" Placa  :"+v.getPlaca());
+                System.err.println(" Ano :"+v.getAno());
+                System.out.println("==================");   
             }
-            System.out.println("}");
+            
         }
     }
 }
