@@ -3,10 +3,11 @@ package br.com.estacionamento.views;
 import br.com.estacionamento.model.Cliente;
 import br.com.estacionamento.model.Endereco;
 import br.com.estacionamento.service.ClienteService;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
-
-
 
 public class ClienteView {
 
@@ -20,7 +21,7 @@ public class ClienteView {
             System.out.println("2 - Atualizar");
             System.out.println("3 - Listar");
             System.out.println("4 - Remover");
-            
+
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
 
@@ -63,6 +64,16 @@ public class ClienteView {
         System.out.print("Telefone: ");
         cliente.setTelefone(scanner.nextLine());
 
+        System.out.print("Data de nascimento (dd/MM/yyyy): ");
+        String dataStr = scanner.nextLine();
+        try{
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate dataNascimento = LocalDate.parse(dataStr, formatter);
+            cliente.setDataNasc(dataNascimento);
+        }catch(Exception e){
+            System.out.println("Valor invalidado");
+        }
+
         Endereco endereco = new Endereco();
 
         System.out.print("Rua: ");
@@ -83,6 +94,7 @@ public class ClienteView {
         System.out.print("UF: ");
         endereco.setUf(scanner.nextLine());
 
+        cliente.setEndereco(endereco);
         clienteService.cadastrarCliente(cliente);
         System.out.println("Cliente cadastrado com sucesso!");
     }
@@ -94,12 +106,12 @@ public class ClienteView {
         Cliente cliente = clienteService.buscarClientePorCpf(cpf);
 
         System.out.println("Nome atual " + cliente.getName());
-        
+
         System.out.print("Nome: ");
         cliente.setName(scanner.nextLine());
-        
+
         // cliente.getTelefones().forEach(System.out::println);
-       
+
         System.out.println("endereço atual" + cliente.getEndereco());
 
         Endereco endereco = new Endereco();
@@ -134,7 +146,7 @@ public class ClienteView {
                 System.out.println("Nenhum ticket encontrado.");
             } else {
                 clientes.forEach(cliente -> System.out.println(
-                        "CLENTE " + cliente.getId() + " Nome:  " + cliente.getName() + ", CPF : " + cliente.getCpf()));
+                        "CLENTE " + cliente.getId() + " Nome:  " + cliente.getName() + ", CPF : " + cliente.getCpf() +"\n " + cliente.getEndereco()));
             }
         } catch (RuntimeException e) {
             System.out.println("Erro: " + e.getMessage());
@@ -152,7 +164,7 @@ public class ClienteView {
             try {
                 clienteService.excluirCliente(cpf);
             } catch (Exception e) {
-                System.out.println( e.getCause());
+                System.out.println(e.getCause());
                 System.out.println("Exclusão ERRO.");
 
             }

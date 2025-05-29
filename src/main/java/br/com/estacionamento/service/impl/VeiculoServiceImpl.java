@@ -48,6 +48,7 @@ public class VeiculoServiceImpl implements VeiculoService {
     }
 
     @Override
+    @Transactional
     public void removerVeiculo(String placa) {
         this.veiculoRepository.deleteByPlaca(placa);
     }

@@ -1,6 +1,8 @@
 package br.com.estacionamento.model;
 
 import java.time.LocalDate;
+
+import jakarta.persistence.Embedded;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,6 +30,9 @@ public abstract class Pessoa {
     private String telefone;
 
     private LocalDate dataNasc;
+
+    @Embedded
+    private Endereco endereco;
 
     public abstract String getTipo();
 

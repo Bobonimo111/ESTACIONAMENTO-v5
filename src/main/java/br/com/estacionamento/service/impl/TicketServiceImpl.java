@@ -75,6 +75,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional
     public void gerarPagamento(Pagamento pagamento) {
         this.pagamentoRepository.save(pagamento);
     }
@@ -82,6 +83,7 @@ public class TicketServiceImpl implements TicketService {
 
 
     @Override
+    @Transactional
     public void atualizarTicket(Ticket ticket) {
         this.ticketRepository.save(ticket);
     }

@@ -1,20 +1,25 @@
 package br.com.estacionamento.views;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
+import br.com.estacionamento.model.Cliente;
 import br.com.estacionamento.model.Funcionario;
 import br.com.estacionamento.model.Pagamento;
 import br.com.estacionamento.model.Ticket;
 import br.com.estacionamento.model.Veiculo;
+import br.com.estacionamento.service.ClienteService;
 import br.com.estacionamento.service.TicketService;
 import br.com.estacionamento.service.VeiculoService;
 
 public class TicketView {
     public static void ticketView(Scanner scanner, TicketService ticketService, VeiculoService veiculoService,
-            Funcionario funcionario) {
+            Funcionario funcionario, ClienteService clienteService) {
         boolean running = true;
         while (running) {
             System.out.println("\n=== SISTEMA DE TICKET ===");
@@ -32,7 +37,7 @@ public class TicketView {
 
             switch (opcao) {
                 case 1:
-                    cadastrarTicket(scanner, ticketService, veiculoService, null);
+                    cadastrarTicket(scanner, ticketService, veiculoService, null, clienteService);
                     break;
                 case 2:
                     atualizarTicket(scanner, ticketService, veiculoService, null);
@@ -54,32 +59,53 @@ public class TicketView {
     }
 
     public static void cadastrarTicket(Scanner scanner, TicketService ticketService, VeiculoService veiculoService,
-            Funcionario funcionario) {
-        // Funcionario vai ser passado ao acessar a view
+            Funcionario funcionario, ClienteService clienteService) {
         System.out.println("\n--- GERAR NOVO TICKET ---");
-        Ticket ticket = new Ticket();
-        Pagamento pagamento = new Pagamento();
+        System.out.println("Informe o CPF do cliente:");
+        String cpf = scanner.nextLine();
 
-        System.out.println("Qual tempo de permanencia em horas[APENAS NUMEROS]: ");
-        int horas = scanner.nextInt();
-        scanner.nextLine();
-        Double valor = 7.50;
-        ticket.setTempoPermanencia(horas);
-
-        System.out.println("Valor aplicado é : " + horas * valor);
-        pagamento.setValor(new BigDecimal(horas * valor));
-
-        System.out.println("Qual placa do veiculo: ");
-        String placa = scanner.nextLine();
-        Veiculo veiculo = veiculoService.buscarVeiculoPorPlaca(placa);
-        if (veiculo == null) {
-            System.out.println("Veiculo não encontrado");
-        } else {
-            ticket.setVeiculo(veiculo);
+        Cliente cliente = clienteService.buscarClientePorCpf(cpf);
+        if (cliente == null) {
+            System.out.println("Cliente não encontrado");
+            return;
         }
 
+        System.out.println("Qual tempo de permanência em horas [APENAS NÚMEROS]: ");
+        int horas = scanner.nextInt();
+        scanner.nextLine();
+        if (horas <= 0) {
+            System.out.println("Tempo inválido.");
+            return;
+        }
+
+        LocalDateTime horaSaida = formatadorDeHoras(scanner); // Exemplo simples, pode ser validado
+
+        System.out.println("Qual placa do veículo:");
+        String placa = scanner.nextLine();
+
+        Veiculo veiculo = veiculoService.buscarVeiculoPorPlaca(placa);
+        if (veiculo == null) {
+            System.out.println("Veículo não encontrado");
+            return;
+        }
+
+        Ticket ticket = new Ticket();
+        ticket.setCliente(cliente);
+        ticket.setVeiculo(veiculo);
+        ticket.setTempoPermanencia(horas);
+        ticket.setHoraSaida(horaSaida);
+
+        BigDecimal valorHora = new BigDecimal("7.50");
+        BigDecimal valorTotal = valorHora.multiply(BigDecimal.valueOf(horas));
+
+        Pagamento pagamento = new Pagamento();
+        pagamento.setValor(valorTotal);
         ticketService.abrirTicket(ticket);
-        pagamento.setTicket(ticket);
+
+        System.out.println("Valor aplicado é : " + valorTotal);
+       
+
+        pagamento.setTicket(ticketService.buscarTicketPorId(ticket.getId()));
         ticketService.gerarPagamento(pagamento);
 
         System.out.println("Pagamento gerado com sucesso");
@@ -95,25 +121,13 @@ public class TicketView {
             System.out.println("Ticket não encontrado");
         } else {
             System.out.println(ticket);
-            // id=%s,
-            // tempoPermanencia=%s,
-            // horaSaida=%s,
-            // pagamento=%s,
-            // cliente=%s,
-            // veiculo=%s,
-            // funcionario=%s
 
             System.out.print("Tempo de permanencia:");
             ticket.setTempoPermanencia(scanner.nextInt());
             scanner.nextLine();
 
-            System.out.print("hora saida [Dia/Mês/Ano Hora:Minuto]: ");
-            String entrada = scanner.nextLine();
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-            LocalDateTime horaSaida = LocalDateTime.parse(entrada, formatter);
-
-            ticket.setHoraSaida(horaSaida);
+            ticket.setHoraSaida(
+                    formatadorDeHoras(scanner));
 
             ticketService.atualizarTicket(ticket);
             System.out.println("Ticket atualizado");
@@ -125,15 +139,36 @@ public class TicketView {
         ticketService.buscarTodosTickets().forEach(ticket -> System.out.println(ticket));
     }
 
-    public static void removerTicket(Scanner scanner,TicketService ticketService) {
+    public static void removerTicket(Scanner scanner, TicketService ticketService) {
         System.out.println("Buscar ticket por id:");
         int id = scanner.nextInt();
         Ticket ticket = ticketService.buscarTicketPorId((long) id);
 
-        if(ticket == null){
+        if (ticket == null) {
             System.out.println("Ticket não encontrado");
-        }else{
+        } else {
             ticketService.fecharTicket(ticket.getId());
         }
+    }
+
+    private static LocalDateTime formatadorDeHoras(Scanner scanner) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        LocalTime horaDigitada = null;
+
+        while (horaDigitada == null) {
+            try {
+                System.out.print("Digite a hora de saída (formato HH:mm, ex: 14:30): ");
+                String entrada = scanner.nextLine();
+                horaDigitada = LocalTime.parse(entrada, formatter);
+            } catch (DateTimeParseException e) {
+                System.out.println("Formato inválido. Tente algo como 14:30");
+            }
+        }
+
+        // Combina com a data atual
+        LocalDateTime horaSaida = LocalDateTime.of(LocalDate.now(), horaDigitada);
+
+        return horaSaida;
     }
 }

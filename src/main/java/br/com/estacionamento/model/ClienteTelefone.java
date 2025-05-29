@@ -24,7 +24,5 @@ public class ClienteTelefone {
     @Override
     public String toString() {
         return "ClienteTelefone [numero=" + numero + "]";
-    }
-
-    
+    }  
 }

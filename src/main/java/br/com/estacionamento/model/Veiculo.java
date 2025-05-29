@@ -54,6 +54,7 @@ public class Veiculo {
                 "  Cor: " + cor + "\n" +
                 "  Marca: " + marca + "\n" +
                 "  Ano: " + ano + "\n" +
+                "  Dono: " + cliente.getName()  + "\n" +
                 "}";
     }
 

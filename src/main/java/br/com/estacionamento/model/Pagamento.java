@@ -24,7 +24,7 @@ public class Pagamento {
     @Column(name = "valor", precision = 10, scale = 2)
     private BigDecimal valor;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
@@ -34,7 +34,7 @@ public class Pagamento {
                 "\n  id=" + id +
                 ",\n  dataPagamento=" + dataPagamento +
                 ",\n  valor=" + valor +
-                ",\n  ticket=" + ticket +
+                ",\n  ticket=" + ticket.getId() +
                 "\n}";
     }
 

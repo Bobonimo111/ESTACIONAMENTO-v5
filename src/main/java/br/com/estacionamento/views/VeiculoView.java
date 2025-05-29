@@ -38,7 +38,7 @@ public class VeiculoView {
                     listarVeiculos(scanner, veiculoService);
                     break;
                 case 4:
-                    listarVeiculoPorCpf(scanner, veiculoService);
+                    listarVeiculoPorCpf(scanner, veiculoService,clienteService);
                     break;
                 case 5:
                     removerVeiculo(scanner, veiculoService);
@@ -135,17 +135,18 @@ public class VeiculoView {
         veiculoService.listarVeiculo().forEach(veiculo -> System.out.println(veiculo));
     }
 
-    private static void listarVeiculoPorCpf(Scanner scanner, VeiculoService veiculoService) {
+    private static void listarVeiculoPorCpf(Scanner scanner, VeiculoService veiculoService,ClienteService clienteService) {
 
         System.out.print("Digite o CPF do cliente: ");
         String cpf = scanner.nextLine();
 
+        Cliente cliente = clienteService.buscarClientePorCpf(cpf);
         List<Veiculo> veiculos = veiculoService.buscarVeiculoPorCpf(cpf);
 
         if (veiculos == null || veiculos.isEmpty()) {
             System.out.println("Nenhum veículo encontrado para o CPF informado.");
         } else {
-            System.out.println("Veículos encontrados:");
+            System.out.println("Veículos encontrados no nome de  "+ cliente.getName());
             for (Veiculo v : veiculos) {
                 System.out.println(v);
             }

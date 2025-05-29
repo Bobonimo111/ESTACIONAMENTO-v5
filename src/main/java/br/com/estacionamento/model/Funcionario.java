@@ -26,9 +26,6 @@ public class Funcionario extends Pessoa {
     @Column(name = "data_admissao", nullable = false)
     private LocalDate dataAdmissao;
 
-    @Embedded
-    private Endereco endereco;
-
     @Override
     public String getTipo() {
         return "FUNCIONARIO";
@@ -41,7 +38,7 @@ public class Funcionario extends Pessoa {
                 "  Cargo: " + cargo + "\n" +
                 "  Salário: R$ " + salario + "\n" +
                 "  Data de Admissão: " + dataAdmissao + "\n" +
-                "  Endereço: " + endereco + "\n" +
+                "  Endereço: " + super.getEndereco() + "\n" +
                 "}";
     }
 

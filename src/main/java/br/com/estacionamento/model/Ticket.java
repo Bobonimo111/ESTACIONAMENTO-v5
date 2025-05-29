@@ -48,9 +48,9 @@ public class Ticket {
            ",\n  tempoPermanencia=" + tempoPermanencia +
            ",\n  horaSaida=" + horaSaida +
            ",\n  pagamento=" + pagamento +
-           ",\n  cliente=" + cliente +
-           ",\n  veiculo=" + veiculo +
-           ",\n  funcionario=" + funcionario +
+           ",\n  cliente=" + (cliente == null ? cliente.getName() : "null") +
+           ",\n  veiculo=" + (veiculo == null ? veiculo.getModelo() : "null") +
+           ",\n  funcionario=" + funcionario == null ? funcionario.getName() : "null" +
            "\n}";
 }
 

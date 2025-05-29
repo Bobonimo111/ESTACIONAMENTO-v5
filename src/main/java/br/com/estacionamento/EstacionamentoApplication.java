@@ -55,7 +55,7 @@ public class EstacionamentoApplication {
                         String senha = "1234";
                         System.out.print("Entre a senha: ");
                         if (senha.equals(scanner.nextLine())) {
-                            TicketView.ticketView(scanner, ticketService, veiculoService, null);
+                            TicketView.ticketView(scanner, ticketService, veiculoService, null,clienteService);
                         }else{
                             System.out.println("Senha invalida");
                             System.out.println("Acesso negado...");

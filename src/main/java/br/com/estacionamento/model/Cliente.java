@@ -32,13 +32,17 @@ public class Cliente extends Pessoa {
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ClienteTelefone> telefones;
 
-    @Embedded
-    private Endereco endereco;
-
+    
     private boolean ativo;
 
-    private LocalDate data_cadastro;
+    @Column(columnDefinition = "DATE DEFAULT CURRENT_DATE")
+    private LocalDate dataCadastro;
 
+
+    @PrePersist
+    public void prePersist() {
+        this.dataCadastro = LocalDate.now();
+    } 
 
     public void adicionarVeiculo(Veiculo veiculo) {
         veiculos.add(veiculo);
@@ -57,8 +61,8 @@ public class Cliente extends Pessoa {
 
     @Override
     public String toString() {
-        return "Cliente [id=" + id + ", name=" + name + ", endereco=" + endereco + ", ativo=" + ativo + ", data_cadastro="
-                + data_cadastro + "]";
+        return "Cliente [id=" + id + ", name=" + name + ", endereco=" + super.getEndereco() + ", ativo=" + ativo + ", data_cadastro="
+                + dataCadastro + "]";
     }
 
     
